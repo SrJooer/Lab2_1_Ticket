@@ -46,13 +46,36 @@ public class PalindromoAir {
     }
 
     public void printPassengers(int index) {
+        if (index >= seats.length) {
+            return;
+        }
+        if (seats[index] != null) {
+            System.out.println(seats[index]);
+        }
+        printPassengers(index + 1);
     }
 
     public double income(int index) {
+    if (index >= seats.length) {
         return 0.0;
     }
+    
+    double montoAsiento = 0.0;
+    
+    if (seats[index] != null) {
+        montoAsiento = seats[index].getMontof(); 
+    }
+    
+    return montoAsiento + income(index + 1);    }
 
     public void reset(int index) {
+    if (index >= seats.length) {
+        return;
+    }
+    
+    seats[index] = null;
+    
+    reset(index + 1);
     }
 
     public void sellTicket(String name) {
@@ -90,5 +113,12 @@ public class PalindromoAir {
     }
     
     public void dispatch() {
+    double total = income(0);
+    
+    System.out.println("Ingresos totales del vuelo: " + total);
+    
+    reset(0);
+    
+    System.out.println("El avión ha sido vaciado exitosamente.");
     }
 }
