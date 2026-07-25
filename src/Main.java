@@ -19,6 +19,9 @@ public class Main {
     private JTextField campoNombre;
     private JTextArea terminal;
 
+    private PalindromoAir vuelo = new PalindromoAir();
+    private JButton[] asientos = new JButton[30];
+
     public void main(String[] args) {
         crearVentana();
         organizarPaneles();
@@ -51,7 +54,37 @@ public class Main {
         root.add(avion, BorderLayout.CENTER);
         root.add(herramientas, BorderLayout.SOUTH);
 
+        organizarAvion();
         organizarHerramientas();
+    }
+
+    private void organizarAvion() {
+        avion.setLayout(new GridLayout(5, 6, 6, 6));
+        avion.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        for (int i = 0; i < asientos.length; i++) {
+            asientos[i] = new JButton(String.valueOf(i + 1));
+            avion.add(asientos[i]);
+        }
+
+        actualizarAsientos();
+    }
+
+    public void actualizarAsientos() {
+        for (int i = 0; i < asientos.length; i++) {
+            Ticket t = vuelo.getSeat(i);
+
+            if (t == null) {
+                asientos[i].setBackground(Color.GREEN);
+                asientos[i].setText(String.valueOf(i + 1));
+            } else if (t.isPalindromo()) {
+                asientos[i].setBackground(Color.ORANGE);
+                asientos[i].setText(t.getNombre());
+            } else {
+                asientos[i].setBackground(Color.RED);
+                asientos[i].setText(t.getNombre());
+            }
+        }
     }
 
 

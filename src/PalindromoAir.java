@@ -2,6 +2,10 @@ public class PalindromoAir {
 
     private Ticket[] seats = new Ticket[30];
 
+    public Ticket getSeat(int index) {
+        return seats[index];
+    }
+
     public int firstAvailable(int index) {
         
         if (index>=seats.length) {
