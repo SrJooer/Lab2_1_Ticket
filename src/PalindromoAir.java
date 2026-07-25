@@ -35,6 +35,15 @@ public class PalindromoAir {
 
     }   
 
+    public boolean isPalindromo(String name) {
+        String limpio = name.toLowerCase().replace(" ", "");
+
+        if (limpio.isEmpty()) {
+            return false;
+        }
+        return isPalindromo(limpio, 0, limpio.length() - 1);
+    }
+
     public boolean isPalindromo(String name,int inicio, int fin) {
         if (inicio>=fin) {
             return true;
@@ -45,14 +54,17 @@ public class PalindromoAir {
         return isPalindromo(name, inicio+1, fin-1);
     }
 
-    public void printPassengers(int index) {
+    public String printPassengers(int index) {
         if (index >= seats.length) {
-            return;
+            return "";
         }
+
+        String texto = "";
+
         if (seats[index] != null) {
-            System.out.println(seats[index]);
+            texto = "--- Asiento " + (index + 1) + " ---\n" + seats[index].print() + "\n\n";
         }
-        printPassengers(index + 1);
+        return texto + printPassengers(index + 1);
     }
 
     public double income(int index) {
@@ -78,15 +90,14 @@ public class PalindromoAir {
     reset(index + 1);
     }
 
-    public void sellTicket(String name) {
+    public String sellTicket(String name) {
         double monto = 1000;
         double descuento;
         double montof;
-        boolean palindromo = isPalindromo(name,0,name.length()-1);
+        boolean palindromo = isPalindromo(name);
         int asiento=firstAvailable(0);
         if (asiento==-1) {
-            System.out.println("No hay mas asientos");
-            return;
+            return "El avion esta lleno, no se puede vender el ticket";
         }
         if (palindromo) {
             descuento = monto*0.20;
@@ -96,29 +107,26 @@ public class PalindromoAir {
         montof=monto-descuento;
         Ticket pasajero = new Ticket(name,montof,monto,palindromo);
         seats[asiento] = pasajero;
-        System.out.println("Ticet vendido");
+        return "Ticket vendido en el asiento " + (asiento + 1) + "\n\n" + pasajero.print();
     }
-    
+
     public boolean cancelTicket(String name) {
         int asiento = searchPassenger(name, 0);
-        
+
         if (asiento ==-1) {
-            System.out.println("Pasajero no encontrado");
             return false;
         }
-        
-        
+
+
         seats[asiento] = null;
         return true;
     }
-    
-    public void dispatch() {
+
+    public String dispatch() {
     double total = income(0);
-    
-    System.out.println("Ingresos totales del vuelo: " + total);
-    
+
     reset(0);
-    
-    System.out.println("El avión ha sido vaciado exitosamente.");
+
+    return "Ingresos totales del vuelo: " + total + "\nEl avion ha sido vaciado exitosamente.";
     }
 }

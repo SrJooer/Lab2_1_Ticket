@@ -28,15 +28,16 @@ public class Ticket {
         return Palindromo;
     }
     
-    public void print() {
-        System.out.println("DATOS DEL TICKET:");
-        System.out.println("Pasajero: " + Nombre);
-        System.out.println("Monto Original: " + monto);
-        System.out.println("Monto Pagado: " + Montof);
+    public String print() {
+        String texto = "Pasajero: " + Nombre + "\n";
+        texto += "Monto Original: " + monto + "\n";
+        texto += "Monto Pagado: " + Montof + "\n";
       if (Palindromo) {
-        System.out.println("Si aplica descuento!");
+        texto += "Si aplica descuento!";
     } else {
-        System.out.println("No aplica descuento");
-    }    }
+        texto += "No aplica descuento";
+    }
+        return texto;
+    }
         
 }

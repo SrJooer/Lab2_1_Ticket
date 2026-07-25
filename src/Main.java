@@ -22,7 +22,11 @@ public class Main {
     private PalindromoAir vuelo = new PalindromoAir();
     private JButton[] asientos = new JButton[30];
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
+        new Main().iniciar();
+    }
+
+    private void iniciar() {
         crearVentana();
         organizarPaneles();
 
@@ -64,6 +68,7 @@ public class Main {
 
         for (int i = 0; i < asientos.length; i++) {
             asientos[i] = new JButton(String.valueOf(i + 1));
+            asientos[i].setForeground(Color.BLACK);
             avion.add(asientos[i]);
         }
 
@@ -138,9 +143,9 @@ public class Main {
         contenido.add(Box.createVerticalStrut(7));
 
         contenido.add(crearGrupo(
-                crearBoton("Sell Ticket", () -> {} ),
-                crearBoton("Cancel Ticket", () -> {} ),
-                crearBoton("Search Passenger", () -> {} )));
+                crearBoton("Sell Ticket", () -> venderTicket() ),
+                crearBoton("Cancel Ticket", () -> cancelarTicket() ),
+                crearBoton("Search Passenger", () -> buscarPasajero() )));
 
         contenido.add(Box.createVerticalStrut(22));
         
@@ -148,11 +153,82 @@ public class Main {
         contenido.add(Box.createVerticalStrut(5));
 
         contenido.add(crearGrupo(
-                crearBoton("Print Passengers", () -> { } ),
-                crearBoton("View Income", () -> { } ),
-                crearBoton("Dispatch", () -> {} )));
+                crearBoton("Print Passengers", () -> imprimirPasajeros() ),
+                crearBoton("View Income", () -> verIngresos() ),
+                crearBoton("Dispatch", () -> despacharVuelo() )));
 
         botones.add(contenido, BorderLayout.NORTH);
+    }
+
+    private String leerNombre() {
+        String nombre = campoNombre.getText().trim();
+
+        if (nombre.isEmpty()) {
+            mostrarTexto("Escribe el nombre del pasajero en el campo de texto");
+            return null;
+        }
+        return nombre;
+    }
+
+    private void venderTicket() {
+        String nombre = leerNombre();
+        if (nombre == null) {
+            return;
+        }
+
+        mostrarTexto(vuelo.sellTicket(nombre));
+        actualizarAsientos();
+        campoNombre.setText("");
+    }
+
+    private void cancelarTicket() {
+        String nombre = leerNombre();
+        if (nombre == null) {
+            return;
+        }
+
+        if (vuelo.cancelTicket(nombre)) {
+            mostrarTexto("Ticket cancelado, el asiento de " + nombre + " quedo disponible");
+        } else {
+            mostrarTexto("Pasajero no encontrado: " + nombre);
+        }
+        actualizarAsientos();
+        campoNombre.setText("");
+    }
+
+    private void buscarPasajero() {
+        String nombre = leerNombre();
+        if (nombre == null) {
+            return;
+        }
+
+        int asiento = vuelo.searchPassenger(nombre, 0);
+
+        if (asiento == -1) {
+            mostrarTexto("Pasajero no encontrado: " + nombre);
+        } else {
+            mostrarTexto("Pasajero encontrado en el asiento " + (asiento + 1) + "\n\n"
+                    + vuelo.getSeat(asiento).print());
+        }
+    }
+
+    private void imprimirPasajeros() {
+        String texto = vuelo.printPassengers(0);
+
+        if (texto.isEmpty()) {
+            mostrarTexto("Todavia no hay pasajeros registrados");
+        } else {
+            mostrarTexto("PASAJEROS DEL VUELO\n\n" + texto);
+        }
+    }
+
+    private void verIngresos() {
+        mostrarTexto("Ingresos totales: " + vuelo.income(0));
+    }
+
+    private void despacharVuelo() {
+        mostrarTexto(vuelo.dispatch());
+        actualizarAsientos();
     }
     
     private JTextField crearCampoTexto() {
