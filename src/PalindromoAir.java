@@ -42,6 +42,13 @@ public class PalindromoAir {
     }
 
     public void printPassengers(int index) {
+        if (index >= seats.length) {
+            return;
+        }
+        if (seats[index] != null) {
+            System.out.println(seats[index]);
+        }
+        printPassengers(index + 1);
     }
 
     public double income(int index) {
