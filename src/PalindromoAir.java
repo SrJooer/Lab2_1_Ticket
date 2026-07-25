@@ -4,7 +4,14 @@ public class PalindromoAir {
     private Ticket[] seats = new Ticket[30];
 
     public int firstAvailable(int index) {
-        return 0;
+        
+        if (index>=seats.length) {
+            return -1;
+        }
+        if (seats[index]==null) {
+            return index;
+        }
+        return firstAvailable(index+1);
     }
 
     public int searchPassenger(String name, int index) {
@@ -40,6 +47,8 @@ public class PalindromoAir {
     }
 
     public void sellTicket(String name) {
+        int seat = firstAvailable(0);
+        
     }
     
     public boolean cancelTicket(String name) {
