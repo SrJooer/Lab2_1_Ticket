@@ -1,4 +1,3 @@
-
 public class PalindromoAir {
 
     private Ticket[] seats = new Ticket[30];
@@ -20,7 +19,7 @@ public class PalindromoAir {
     }
     
     if (seats[index] != null) {
-        String nombrePasajero = seats[index].getName();
+        String nombrePasajero = seats[index].getNombre();
         
         if (nombrePasajero.equalsIgnoreCase(name)) {
             return index; 
@@ -29,7 +28,7 @@ public class PalindromoAir {
     
     int siguientePosicion = searchPassenger(name, index + 1);
     return siguientePosicion;
-}
+
     }   
 
     public boolean isPalindromo(String name) {
@@ -57,3 +56,4 @@ public class PalindromoAir {
     
     public void dispatch() {
     }
+}
