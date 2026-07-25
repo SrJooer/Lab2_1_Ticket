@@ -73,7 +73,16 @@ public class PalindromoAir {
     }
     
     public boolean cancelTicket(String name) {
-        return false;
+        int asiento = searchPassenger(name, 0);
+        
+        if (asiento ==-1) {
+            System.out.println("Pasajero no encontrado");
+            return false;
+        }
+        
+        
+        seats[asiento] = null;
+        return true;
     }
     
     public void dispatch() {
