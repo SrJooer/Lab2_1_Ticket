@@ -1,8 +1,5 @@
-
-package ticket;
-
-
 public class Ticket {
+    
    private String Nombre;
    private double Montof;
    private double monto;
@@ -30,6 +27,7 @@ public class Ticket {
     public boolean isPalindromo() {
         return Palindromo;
     }
+    
     public void print() {
         System.out.println("DATOS DEL TICKET:");
         System.out.println("Pasajero: " + Nombre);
