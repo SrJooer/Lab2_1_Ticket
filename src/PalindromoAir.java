@@ -8,8 +8,22 @@ public class PalindromoAir {
     }
 
     public int searchPassenger(String name, int index) {
-        return 0;
+    if (index >= seats.length) {
+        return -1;
     }
+    
+    if (seats[index] != null) {
+        String nombrePasajero = seats[index].getName();
+        
+        if (nombrePasajero.equalsIgnoreCase(name)) {
+            return index; 
+        }
+    }
+    
+    int siguientePosicion = searchPassenger(name, index + 1);
+    return siguientePosicion;
+}
+    }   
 
     public boolean isPalindromo(String name) {
         return false;
@@ -34,4 +48,3 @@ public class PalindromoAir {
     
     public void dispatch() {
     }
-}
